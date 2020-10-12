@@ -1,4 +1,16 @@
+@import './Vasr.scss';
+@import './components/Media.scss';
+
 body {
-    background-color: blue;
-    color: white;
-}
+    margin: 0;
+    font-family: $theme-font;
+    background:$main-color;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
