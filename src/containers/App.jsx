@@ -5,48 +5,42 @@ import Categories from '../components/Categories';
 import Carousel from '../components/Carousel';
 import CarouselItem from '../components/CarouselItem';
 import Footer from '../components/Footer';
+import useInitialSate from '../hooks/useInitialState';
 import '../assets/styles/App.scss';
 
+const API = 'http://localhost:3000/initalState';
+
 const App = () => {
-    const [ videos, setVideos ] = useState([]);
+    const initialState = useInitialSate(API)
 
-    useEffect(() => {
-        fetch('http://localhost:3000/initalState')
-        .then(response => response.json())
-        .then(data => setVideos(data))
-    }, []);
-
-    console.log(videos)
     return (
         <div className="App">
             <Header />
             <Search />
-            <Categories text="Mi lista">
-                <Carousel>
-                    <CarouselItem />
-                    <CarouselItem />
-                    <CarouselItem />
-                    <CarouselItem />
-                </Carousel>
-            </Categories>
-
+            { initialState.mylist.lenght > 0 &&
+                <Categories text="Mi lista">
+                    <Carousel>
+                    {initialState.mylist.map(item => 
+                        <CarouselItem key={item.id} {...item} />    
+                    )}
+                    </Carousel>
+                </Categories>
+            }
             
             <Categories text="Tendencias">
                 <Carousel>
-                    <CarouselItem />
-                    <CarouselItem />
-                    <CarouselItem />
-                    <CarouselItem />
+                    {initialState.trends.map(item => 
+                        <CarouselItem key={item.id} {...item} />    
+                    )}                   
                 </Carousel>
             </Categories>
 
             
             <Categories text="Originales">
                 <Carousel>
-                    <CarouselItem />
-                    <CarouselItem />
-                    <CarouselItem />
-                    <CarouselItem />
+                    {initialState.originals.map(item => 
+                        <CarouselItem key={item.id} {...item} />    
+                    )}
                 </Carousel>
             </Categories>
             <Footer />
